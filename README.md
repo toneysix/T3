@@ -146,5 +146,5 @@ Indeed, ORMs form another kind of Humble Object boundary between the gateway int
 * Problem Details реализован не полностью, в частности,он не обрабатывает ошибки уровня домена, такие как сущность не найдена, выдавая 404 ответ. Ошибки домена и валидации будут представлены как ошибка 400
 * Решение по созданию сервиса уровня домена было принципиальным в связи с наличием определенных доменных ограничений, которые не укладывались в рамках прикладнго уровня приложения с использованием репозитория напрямую
 
-[^1]: [Техническое задание Т3](docs/T3.pdf)
+[^1]: [Техническое задание Т3](/toneysix/T3/tree/main/docs/T3.pdf)
 [^2]: [Robert Martin, Clean Architecture, p. 204](https://github.com/ropalma/ICMC-USP/blob/master/Book%20-%20Clean%20Architecture%20-%20Robert%20Cecil%20Martin.pdf)
