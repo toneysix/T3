@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="hibernate.cfg.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mappings\Transaction.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+    <PackageReference Include="NHibernate" Version="5.5.2" />
+    <PackageReference Include="NHibernate.Caches.Util.JsonSerializer" Version="5.9.0" />
+    <PackageReference Include="NHibernate.Extensions.Sqlite" Version="8.0.14" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0" />
+    <PackageReference Condition="$(DefineConstants.Contains(DOCKER_BUILD))" Include="NHibernate.Caches.StackExchangeRedis" Version="5.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\T3.Data.AuditableBuilder\T3.Data.AuditableBuilder.csproj" OutputItemType="Analyzer" />
+    <ProjectReference Include="..\T3.Domain.Shared\T3.Domain.Shared.csproj" />
+    <ProjectReference Include="..\T3.Transactions.API\T3.Transactions.API.csproj" />
+    <ProjectReference Include="..\T3.Transactions.Core\T3.Transactions.Core.csproj" />
+  </ItemGroup>
+
+</Project>

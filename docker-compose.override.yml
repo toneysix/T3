@@ -1,0 +1,4 @@
+services:
+    t3.web:
+        env_file:
+        - path: .env

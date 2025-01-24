@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "t3.web",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
+      "serviceActions": {
+        "t3.web": "StartDebugging",
+        "t3.redis": "StartWithoutDebugging",
+        "t3.seq": "StartWithoutDebugging"
+      }
+    }
+  }
+}

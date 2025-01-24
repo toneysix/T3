@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\T3.API.Shared\T3.API.Shared.csproj" />
+    <ProjectReference Include="..\T3.Transactions.Core\T3.Transactions.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,70 @@
+services:
+    t3.web:
+        image: web
+        container_name: web
+        depends_on:
+            - "t3.redis"
+            - "t3.seq"
+        build:
+            context: .
+            dockerfile: src/T3.Web/Dockerfile
+        ports:
+            - "9000:9000"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://+:9000
+        tty: true
+        stdin_open: true
+    t3.redis:
+        image: redis:latest
+        container_name: cache
+        environment:
+            - REDIS_HOST=${REDIS_HOST}
+            - REDIS_PORT=${REDIS_PORT}
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
+        ports:
+            - "$REDIS_PORT:$REDIS_PORT"
+        volumes:
+            - ./data/redis:/data
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 512M
+                reservations:
+                    cpus: '0.25'
+                    memory: 256M
+        command: > 
+            sh -c '
+                mkdir -p /usr/local/etc/redis &&
+                echo "bind $REDIS_HOST" > /usr/local/etc/redis/redis.conf &&
+                echo "requirepass $REDIS_PASSWORD" >> /usr/local/etc/redis/redis.conf &&
+                echo "appendonly yes" >> /usr/local/etc/redis/redis.conf &&
+                echo "appendfsync everysec" >> /usr/local/etc/redis/redis.conf &&
+                echo "user default on >$REDIS_PASSWORD ~* &* +@all" >> /usr/local/etc/redis/users.acl &&
+                redis-server /usr/local/etc/redis/redis.conf --aclfile /usr/local/etc/redis/users.acl --port $REDIS_PORT
+            '
+        
+        healthcheck:
+          test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping"]
+          interval: 30s
+          timeout: 10s
+          retries: 5
+
+        restart: unless-stopped
+        tty: true
+        stdin_open: true
+
+    t3.seq:
+        image: datalust/seq:latest
+        container_name: logs
+        volumes:
+            - ./data/seq:/data
+        environment:
+            - ACCEPT_EULA=Y
+            - SEQ_PORT_HTTP=${SEQ_PORT_HTTP}
+            - SEQ_API_INGESTIONPORT=${SEQ_API_INGESTIONPORT} 
+            - SEQ_API_LISTENURIS=http://logs:${SEQ_PORT_HTTP},http://logs:${SEQ_API_INGESTIONPORT}
+        ports:
+            - "$SEQ_PORT_HTTP:$SEQ_PORT_HTTP"
+            - "$SEQ_API_INGESTIONPORT:$SEQ_API_INGESTIONPORT"

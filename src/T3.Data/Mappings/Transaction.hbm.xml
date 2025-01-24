@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="T3.Transactions.Core"
+                   namespace="T3.Transactions.Core.Entities">
+
+  <class name="Transaction" table="Transactions" lazy="false">
+    <cache usage="read-write"/>
+    <id name="Id" generator="assigned"/>
+    <property name="Date"/>
+    <property name="Amount"/>
+    <property name="CreatedDt" column="CreatedDt" type="Timestamp" update="false" insert="true" access="none"/>
+  </class>
+
+</hibernate-mapping>
